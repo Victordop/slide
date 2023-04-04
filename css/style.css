@@ -1,0 +1,31 @@
+body{
+    margin: 0px;
+}
+
+ul{
+    padding: 0px;
+    margin: 0px;
+    list-style: none;
+}
+
+img{
+    display: block; /*tira o espacinho que tem embaixo entre cada img*/
+    max-width: 100%; /*a imagem não estoura mais o container*/
+}
+
+.wrapper{
+    overflow: hidden; /*oculta a barra que permite navegar na horizontal*/
+}
+
+.slide{
+    display: flex; /*coloca as imagens na horizontal, lado a lado*/
+}
+
+.slide li{
+    width: 80vw; /*cada li vai ter uma largura de aproximadamente 80%*/
+    flex-shrink: 0; /*configuração p/ não encolher a imagem para que ela caiba na tela*/
+    max-width: 800px;
+    margin: 0 20px;
+    transform: translate3d(0,0,0);
+}
+
