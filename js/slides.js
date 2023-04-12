@@ -17,11 +17,6 @@ export default class Slides {
         this.onEnd = this.onEnd.bind(this);
     }
 
-    updateDistance(clientX) {
-        this.dist.movement = (this.dist.startX - clientX) * 1.6; //calcula movimentação (clique inicial até onde moveu o mouse); movimento *1.6 para dar o slide mais rápido
-        return this.dist.finalPosition - this.dist.movement;
-    }
-
 
     onStart(event) {
         let movetype;
@@ -48,6 +43,11 @@ export default class Slides {
 
     }
 
+    updateDistance(clientX) {
+        this.dist.movement = (this.dist.startX - clientX) * 1.6; //calcula movimentação (clique inicial até onde moveu o mouse); movimento *1.6 para dar o slide mais rápido
+        return this.dist.finalPosition - this.dist.movement;
+    }
+
     onMove(event) { //ativado apenas quando fiz o mousedown primeiro
         const pointerClick = (event.type==='mousemove')?event.clientX:event.changedTouches[0].clientX;//op. ternário p ver se a função onMove usar o parâmetro para mousemove ou touchmove
         const finalPosition = this.updateDistance(pointerClick);
@@ -63,7 +63,7 @@ export default class Slides {
         this.wrapper.addEventListener('mousedown', this.onStart); //mousedown é quando o usuário pressiona o botão do mous
         this.wrapper.addEventListener('touchstart', this.onStart); //touch p/ dar responsividade, utilizado no mobile
         this.wrapper.addEventListener('mouseup', this.onEnd);
-        this.wrapper.addEventListener('touchend', this.onEnd)
+        this.wrapper.addEventListener('touchend', this.onEnd);
     }
 
     init() {
