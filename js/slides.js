@@ -17,6 +17,26 @@ export default class Slides {
         this.onEnd = this.onEnd.bind(this);
     }
 
+    //configurações do slide
+
+    slidePosition(slide){
+        const margin = (this.wrapper.offsetWidth - slide.offsetWidth)/2 //tamanho da tela - tamanho slide / 2 partes em branco
+        return -(slide.offsetLeft - margin); //capta a posição central dos slides em relação a tela, é como se eu somasse o offsetLeft (td p esquerda) + as margens
+    }
+
+
+    slideConfig(){
+        this.slidesArray = [...this.slide.children].map((slide)=>{ //map retorna um array com modificações nos elementos
+            const elementPosition = this.slidePosition(slide);
+            return {
+                slide,
+                elementPosition,
+
+            }
+        });
+        console.log(this.slidesArray);
+    }
+
 
     onStart(event) {
         let movetype;
@@ -69,6 +89,7 @@ export default class Slides {
     init() {
         this.binding();
         this.addEvent();
+        this.slideConfig();
         return this;
     }
 
