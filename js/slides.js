@@ -79,6 +79,23 @@ export default class Slides {
         this.slide.style.transform = `translate3d(${distX}px,0,0)`
     }
 
+    changeSlide(index){
+        const activeSlide = this.slidesArray[index];
+       this.moveSlide(activeSlide.elementPosition);
+       this.dist.finalPosition= activeSlide.elementPosition; //consigo navegar a partir do último que coloquei
+
+
+    }
+
+    slideIndexNav(index){
+        const ultimo = this.slidesArray.length-1;
+        return this.index={
+            prev:(index)?index-1:null, //se for igual a 0, falsy, logo null
+            active:index,
+            next:(index>=ultimo)?null:index+1,
+        }
+    }
+
     addEvent() {
         this.wrapper.addEventListener('mousedown', this.onStart); //mousedown é quando o usuário pressiona o botão do mous
         this.wrapper.addEventListener('touchstart', this.onStart); //touch p/ dar responsividade, utilizado no mobile
@@ -90,6 +107,7 @@ export default class Slides {
         this.binding();
         this.addEvent();
         this.slideConfig();
+        this.changeSlide(3);
         return this;
     }
 
