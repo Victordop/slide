@@ -60,7 +60,18 @@ export default class Slides {
         const movetype = (event.type==='mouseup')?'mousemove':'touchmove';
         this.wrapper.removeEventListener(movetype, this.onMove);
         this.dist.finalPosition = this.dist.movePosition;
+        this.changeSlideOnEnd();
+    }
 
+    changeSlideOnEnd(){
+        console.log(this.dist.movement);
+        if(this.dist.movement>120){
+            this.activeNextSlide();
+        }else if(this.dist.movement<-120){
+            this.activePrevSlide();
+        }else{
+            this.changeSlide(this.index.active);
+        }
     }
 
     updateDistance(clientX) {
@@ -83,16 +94,15 @@ export default class Slides {
         const activeSlide = this.slidesArray[index];
        this.moveSlide(activeSlide.elementPosition);
        this.dist.finalPosition= activeSlide.elementPosition; //consigo navegar a partir do último que coloquei
-
-
+       this.slideIndexNav(index);
     }
 
     slideIndexNav(index){
         const ultimo = this.slidesArray.length-1;
         return this.index={
-            prev:(index)?index-1:null, //se for igual a 0, falsy, logo null
+            prev:(index)?index-1:undefined, //se for igual a 0, falsy, logo null
             active:index,
-            next:(index>=ultimo)?null:index+1,
+            next:(index>=ultimo)?undefined:index+1,
         }
     }
 
@@ -103,11 +113,18 @@ export default class Slides {
         this.wrapper.addEventListener('touchend', this.onEnd);
     }
 
+    activePrevSlide(){
+        if(this.index.prev !== undefined) this.changeSlide(this.index.prev);
+    }
+
+    activeNextSlide(){
+        if(this.index.next !== undefined) this.changeSlide(this.index.next);
+    }
+
     init() {
         this.binding();
         this.addEvent();
         this.slideConfig();
-        this.changeSlide(3);
         return this;
     }
 
