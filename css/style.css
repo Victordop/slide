@@ -20,6 +20,7 @@ img{
 .slide{
     display: flex; /*coloca as imagens na horizontal, lado a lado*/
     transform: translate3d(0px,0,0);
+    
 }
 
 .slide li{
