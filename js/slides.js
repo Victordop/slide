@@ -54,20 +54,29 @@ export default class Slides {
 
         this.wrapper.addEventListener(movetype, this.onMove);
 
+        this.transition(false)
+
+    }
+
+    onMove(event) { //ativado apenas quando fiz o mousedown primeiro
+        const pointerClick = (event.type==='mousemove')?event.clientX:event.changedTouches[0].clientX;//op. ternário p ver se a função onMove usar o parâmetro para mousemove ou touchmove
+        const finalPosition = this.updateDistance(pointerClick);
+        this.moveSlide(finalPosition)
     }
 
     onEnd(event) {
         const movetype = (event.type==='mouseup')?'mousemove':'touchmove';
         this.wrapper.removeEventListener(movetype, this.onMove);
         this.dist.finalPosition = this.dist.movePosition;
+        this.transition(true);
         this.changeSlideOnEnd();
     }
 
     changeSlideOnEnd(){
         console.log(this.dist.movement);
-        if(this.dist.movement>120){
+        if(this.dist.movement > 120 && this.index.next!==undefined){
             this.activeNextSlide();
-        }else if(this.dist.movement<-120){
+        }else if(this.dist.movement < -120 && this.index.prev!==undefined){
             this.activePrevSlide();
         }else{
             this.changeSlide(this.index.active);
@@ -79,11 +88,6 @@ export default class Slides {
         return this.dist.finalPosition - this.dist.movement;
     }
 
-    onMove(event) { //ativado apenas quando fiz o mousedown primeiro
-        const pointerClick = (event.type==='mousemove')?event.clientX:event.changedTouches[0].clientX;//op. ternário p ver se a função onMove usar o parâmetro para mousemove ou touchmove
-        const finalPosition = this.updateDistance(pointerClick);
-        this.moveSlide(finalPosition)
-    }
 
     moveSlide(distX) {
         this.dist.movePosition = distX; //temos uma referência do valor p começar o slide a partir dele 
@@ -121,8 +125,13 @@ export default class Slides {
         if(this.index.next !== undefined) this.changeSlide(this.index.next);
     }
 
+    transition(active){ 
+        this.slide.style.transition=active?'transform .3s':'';
+    }
+
     init() {
         this.binding();
+        this.transition(true);
         this.addEvent();
         this.slideConfig();
         return this;
