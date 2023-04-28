@@ -9,6 +9,7 @@ export default class Slides {
             movement: 0,
             finalPosition: 0,
         }
+        this.classActive = 'active'
     }
 
     binding() { //mesma coisa que fazíamos antes, quando  colocamos dentro do construtor
@@ -99,6 +100,7 @@ export default class Slides {
        this.moveSlide(activeSlide.elementPosition);
        this.dist.finalPosition= activeSlide.elementPosition; //consigo navegar a partir do último que coloquei
        this.slideIndexNav(index);
+       this.changeActiveClass();
     }
 
     slideIndexNav(index){
@@ -127,6 +129,12 @@ export default class Slides {
 
     transition(active){ 
         this.slide.style.transition=active?'transform .3s':'';
+    }
+
+    changeActiveClass(){
+        this.slidesArray.forEach(item=>item.slide.classList.remove(this.classActive));
+        this.slidesArray[this.index.active].slide.classList.add(this.classActive);
+
     }
 
     init() {
