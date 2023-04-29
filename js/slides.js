@@ -1,4 +1,4 @@
-// import debounce from "./debounce.js"
+import debounce from "./debounce.js"
 
 export default class Slides {
     constructor(wrapper, slide) {
@@ -9,12 +9,14 @@ export default class Slides {
             movement: 0,
             finalPosition: 0,
         }
+        this.classActive = 'active'
     }
 
     binding() { //mesma coisa que fazíamos antes, quando  colocamos dentro do construtor
         this.onStart = this.onStart.bind(this); //faz referência ao objeto slides
         this.onMove = this.onMove.bind(this);
         this.onEnd = this.onEnd.bind(this);
+        this.onResize = debounce(this.onResize.bind(this),200);
     }
 
     //configurações do slide
@@ -34,7 +36,6 @@ export default class Slides {
 
             }
         });
-        console.log(this.slidesArray);
     }
 
 
@@ -99,6 +100,7 @@ export default class Slides {
        this.moveSlide(activeSlide.elementPosition);
        this.dist.finalPosition= activeSlide.elementPosition; //consigo navegar a partir do último que coloquei
        this.slideIndexNav(index);
+       this.changeActiveClass();
     }
 
     slideIndexNav(index){
@@ -129,11 +131,30 @@ export default class Slides {
         this.slide.style.transition=active?'transform .3s':'';
     }
 
+    changeActiveClass(){
+        this.slidesArray.forEach(item=>item.slide.classList.remove(this.classActive));
+        this.slidesArray[this.index.active].slide.classList.add(this.classActive);
+
+    }
+
+    onResize(){
+        setTimeout(() => { //espera carregar para dar o resize, ficam as imagens alinhadas
+        this.slideConfig();
+        this.changeSlide(this.index.active);
+        }, 1000);
+        console.log('ativou resize');
+    }
+
+    addEventOnResize(){
+        window.addEventListener('resize',this.onResize);
+    }
+
     init() {
         this.binding();
         this.transition(true);
         this.addEvent();
         this.slideConfig();
+        this.addEventOnResize();
         return this;
     }
 
