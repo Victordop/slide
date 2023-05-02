@@ -1,6 +1,7 @@
-import Slides from "./slides.js";
+import SlideNav from "./slides.js";
 
 
-const slides = new Slides('.wrapper','.slide');
+const slides = new SlideNav('.wrapper','.slide');
 slides.init();
 slides.changeSlide(0);
+slides.addArrow('.prev-btn','.next-btn')

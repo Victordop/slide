@@ -1,6 +1,6 @@
 import debounce from "./debounce.js"
 
-export default class Slides {
+export class Slides {
     constructor(wrapper, slide) {
         this.wrapper = document.querySelector(wrapper);
         this.slide = document.querySelector(slide);
@@ -16,7 +16,9 @@ export default class Slides {
         this.onStart = this.onStart.bind(this); //faz referência ao objeto slides
         this.onMove = this.onMove.bind(this);
         this.onEnd = this.onEnd.bind(this);
-        this.onResize = debounce(this.onResize.bind(this),200);
+        this.onResize = debounce(this.onResize.bind(this),200); //debounce para não ficar ativando toda hora milhares deste evento
+        this.activePrevSlide =this.activePrevSlide.bind(this);
+        this.activeNextSlide =this.activeNextSlide.bind(this);
     }
 
     //configurações do slide
@@ -160,5 +162,20 @@ export default class Slides {
 
 
 };
+
+export default class SlideNav extends Slides{ //quando extendemos classes, o construtor é o mesmo
+addArrow(prev,next){
+this.prevBtn = document.querySelector(prev);
+this.nextBtn = document.querySelector(next);
+this.addEventArrow();
+}
+
+addEventArrow(){
+    this.prevBtn.addEventListener('click',this.activePrevSlide);
+    this.nextBtn.addEventListener('click',this.activeNextSlide);
+}
+}
+
+
 
 //nesta aula vamos fazer a funcionalidade para mobile, já que não funciona mousedown para ela
