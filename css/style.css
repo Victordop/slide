@@ -1,35 +1,42 @@
-body{
+body {
     margin: 0px;
 }
 
-ul{
+ul {
     padding: 0px;
     margin: 0px;
     list-style: none;
 }
 
-img{
-    display: block; /*tira o espacinho que tem embaixo entre cada img*/
-    max-width: 100%; /*a imagem não estoura mais o container*/
+img {
+    display: block;
+    /*tira o espacinho que tem embaixo entre cada img*/
+    max-width: 100%;
+    /*a imagem não estoura mais o container*/
 }
 
-.wrapper{
-    overflow: hidden; /*oculta a barra que permite navegar na horizontal*/
+.wrapper {
+    overflow: hidden;
+    /*oculta a barra que permite navegar na horizontal*/
 }
 
-.slide{
-    display: flex; /*coloca as imagens na horizontal, lado a lado*/
-    transform: translate3d(0px,0,0);
-    
+.slide {
+    display: flex;
+    /*coloca as imagens na horizontal, lado a lado*/
+    transform: translate3d(0px, 0, 0);
+
 }
 
-.slide:hoover{ /*melhora a performance*/
+.slide:hoover {
+    /*melhora a performance*/
     will-change: transform;
 }
 
-.slide li{
-    width: 80vw; /*cada li vai ter uma largura de aproximadamente 80%*/
-    flex-shrink: 0; /*configuração p/ não encolher a imagem para que ela caiba na tela*/
+.slide li {
+    width: 80vw;
+    /*cada li vai ter uma largura de aproximadamente 80%*/
+    flex-shrink: 0;
+    /*configuração p/ não encolher a imagem para que ela caiba na tela*/
     max-width: 800px;
     margin: 0 20px;
     opacity: 0.8;
@@ -37,11 +44,35 @@ img{
     transition: .3s;
     border-radius: 4px;
     overflow: hidden;
-    box-shadow: 0 2px 4px rgba(0,0, 0, .5);
+    box-shadow: 0 2px 4px rgba(0, 0, 0, .5);
 }
 
 
-.slide li.active{
+.slide li.active {
     opacity: 1;
     transform: scale(1);
+}
+
+[data-control="slide"] {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+}
+
+[data-control="slide"] li a{
+    width: 12px;
+    height: 12px;
+    overflow: hidden;
+    background: #FB5;
+    border-radius: 50%;
+    color: #FB5;
+    text-decoration: none;
+    margin: 5px;
+
+}
+
+[data-control="slide"] li.active a,
+[data-control="slide"] li a:hover {
+    background-color: #E54;
+    color: #E54;
 }
