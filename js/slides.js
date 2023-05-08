@@ -9,7 +9,8 @@ export class Slides {
             movement: 0,
             finalPosition: 0,
         }
-        this.classActive = 'active'
+        this.classActive = 'active';
+        this.changeEvent = new Event('changeEvent'); //criando um evento novo
     }
 
     binding() { //mesma coisa que fazíamos antes, quando  colocamos dentro do construtor
@@ -103,6 +104,8 @@ export class Slides {
         this.dist.finalPosition = activeSlide.elementPosition; //consigo navegar a partir do último que coloquei
         this.slideIndexNav(index);
         this.changeActiveClass();
+        this.wrapper.dispatchEvent(this.changeEvent)//o wrapper emiti para gente o evento que criamos
+     
     }
 
     slideIndexNav(index) {
@@ -122,11 +125,15 @@ export class Slides {
     }
 
     activePrevSlide() {
-        if (this.index.prev !== undefined) this.changeSlide(this.index.prev);
+        if (this.index.prev !== undefined){
+            this.changeSlide(this.index.prev);
+        } 
     }
 
     activeNextSlide() {
-        if (this.index.next !== undefined) this.changeSlide(this.index.next);
+        if (this.index.next !== undefined){
+            this.changeSlide(this.index.next);
+        } 
     }
 
     transition(active) {
@@ -167,6 +174,7 @@ export default class SlideNav extends Slides { //quando extendemos classes, o co
     constructor(wrapper, slide){
         super (wrapper, slide); //tem que usar o super pois é um construtor de classe estendida
             this.controlBinding();
+            this.addActiveClass=this.addActiveClass.bind(this);
 
     }
     addArrow(prev, next) {
@@ -190,23 +198,33 @@ export default class SlideNav extends Slides { //quando extendemos classes, o co
         return controle;
     }
 
+    addControl(customControl) {
+        this.control = document.querySelector(customControl) || this.createControl();
+        this.controlArray = [...this.control.children];//desestruturei e tenho um array com cada li
+        this.controlArray.forEach(this.eventControl); //como o callback do foreach e da função são o mesmo, n preciso passar
+        this.addActiveClass();
+    }
+
+
     eventControl(item, index) {
         item.addEventListener('click', (event) => {
             event.preventDefault();
             this.changeSlide(index);
-
+            
         })
+        this.wrapper.addEventListener('changeEvent',this.addActiveClass); //toda vez que muda o slide, muda a bolinha 
     }
 
-    addControl(customControl) {
-        this.control = document.querySelector(customControl) || this.createControl();
-        this.controlArray = [...this.control.children];//desestruturei e tenho um array com cada li
-        console.log(this.control, this.controlArray);
-        this.controlArray.forEach(this.eventControl); //como o callback do foreach e da função são o mesmo, n preciso passar
-    }
 
     controlBinding() {
         this.eventControl = this.eventControl.bind(this); //pois estava fazendo referencia a cada elemento do array
+    }
+
+    addActiveClass(){
+        this.controlArray.forEach(item=>{ item.classList.remove(this.classActive);
+
+        });
+        this.controlArray[this.index.active].classList.add(this.classActive);
     }
 
 }
