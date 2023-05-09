@@ -76,3 +76,27 @@ img {
     background-color: #E54;
     color: #E54;
 }
+
+.custom-control{
+    display: flex;
+   justify-content: center;
+    margin-top: 40px;
+    margin-bottom: 20px;
+    flex-wrap: wrap; /*se estourar o container ele quebra na vertical*/
+}
+
+.custom-control li{
+    opacity: 0.8;
+    transform: scale(0.8);
+    width: 50px;
+    height: 50px;
+    border-radius: 50%;
+    overflow: hidden;
+    margin: 2px;
+    box-shadow: 0 2px 2px rgba(0,0, 0, .5);
+}
+
+.custom-control li.active{
+    opacity:1;
+    transform: scale(1);
+}
