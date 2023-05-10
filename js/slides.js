@@ -77,7 +77,7 @@ export class Slides {
     }
 
     changeSlideOnEnd() {
-        console.log(this.dist.movement);
+        // console.log(this.dist.movement);
         if (this.dist.movement > 120 && this.index.next !== undefined) {
             this.activeNextSlide();
         } else if (this.dist.movement < -120 && this.index.prev !== undefined) {
@@ -151,7 +151,7 @@ export class Slides {
             this.slideConfig();
             this.changeSlide(this.index.active);
         }, 1000);
-        console.log('ativou resize');
+        // console.log('ativou resize');
     }
 
     addEventOnResize() {
@@ -226,6 +226,7 @@ export default class SlideNav extends Slides { //quando extendemos classes, o co
         });
         this.controlArray[this.index.active].classList.add(this.classActive);
     }
+
 
 }
 
